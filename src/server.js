@@ -11,12 +11,12 @@ app.listen(PORT, async () => {
     try {
         const dbInstance = await db.dbPromise;
 
-        // Inicializar banco de dados SQLite com as tabelas
+        //Inicializar banco de dados SQLite com as tabelas
         const schema = fs.readFileSync(path.join(__dirname, 'database', 'schema.sql'), 'utf-8');
         await dbInstance.exec(schema);
         console.log('Banco de Dados SQLite sincronizado!');
 
-        // Tenta inserir os dados do seed
+        //Tenta inserir os dados do seed
         try {
             const seed = fs.readFileSync(path.join(__dirname, 'database', 'seed.sql'), 'utf-8');
             await dbInstance.exec(seed);

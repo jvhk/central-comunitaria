@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const loggerMiddleware = require('./middlewares/logger');
 
-// const routes = require('./routes');
+const routes = require('./routes');
 
 const app = express();
 
@@ -14,6 +14,6 @@ app.get('/api/health', (req, res) => {
     res.status(200).json({ status: 'API is running!' });
 });
 
-// app.use('/api', routes);
+app.use('/api', routes);
 
 module.exports = app;
