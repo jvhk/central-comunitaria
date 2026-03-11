@@ -1,0 +1,325 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-03-10T12:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "wrk_1",
+      "parentId": null,
+      "modified": 1690000000000,
+      "created": 1690000000000,
+      "name": "Central Comunitária",
+      "description": "API para gestão de chamados de uma central comunitária",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_1",
+      "parentId": "wrk_1",
+      "modified": 1690000000000,
+      "created": 1690000000000,
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3000/api",
+        "token": ""
+      },
+      "dataPropertyOrder": {
+        "&": ["base_url", "token"]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1690000000000,
+      "_type": "environment"
+    },
+    {
+      "_id": "fld_usuarios",
+      "parentId": "wrk_1",
+      "modified": 1690000000000,
+      "created": 1690000000000,
+      "name": "1. Usuários",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1690000000000,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_register",
+      "parentId": "fld_usuarios",
+      "modified": 1690000000000,
+      "created": 1690000000000,
+      "url": "{{ _.base_url }}/usuarios/register",
+      "name": "Cadastrar Usuário",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"nome\": \"João Silva\",\n\t\"email\": \"joao@exemplo.com\",\n\t\"senha\": \"123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1690000000000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_login",
+      "parentId": "fld_usuarios",
+      "modified": 1690000000000,
+      "created": 1690000000000,
+      "url": "{{ _.base_url }}/usuarios/login",
+      "name": "Fazer Login (Admin)",
+      "description": "Retorna o Token JWT. Copie o token gerado aqui e cole na variável de ambiente 'token' do Insomnia.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"email\": \"admin@central.com\",\n\t\"senha\": \"123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1680000000000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_chamados",
+      "parentId": "wrk_1",
+      "modified": 1690000000000,
+      "created": 1690000000000,
+      "name": "2. Chamados",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1680000000000,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_abrir_chamado",
+      "parentId": "fld_chamados",
+      "modified": 1690000000000,
+      "created": 1690000000000,
+      "url": "{{ _.base_url }}/chamados",
+      "name": "Abrir Chamado",
+      "description": "ViaCEP vai rodar automaticamente preenchendo Cidade e UF. O Factory definirá a prioridade.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"id_categoria\": 1,\n\t\"descricao\": \"Poste soltando faísca e fios rompidos na rua\",\n\t\"cep\": \"01001000\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": -1690000000000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_update_status",
+      "parentId": "fld_chamados",
+      "modified": 1690000000000,
+      "created": 1690000000000,
+      "url": "{{ _.base_url }}/chamados/1/status",
+      "name": "Atualizar Status do Chamado",
+      "description": "Muda o status. (ABERTO -> EM_ATENDIMENTO -> CONCLUIDO)",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"status\": \"EM_ATENDIMENTO\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": -1680000000000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_edit_chamado",
+      "parentId": "fld_chamados",
+      "modified": 1690000000000,
+      "created": 1690000000000,
+      "url": "{{ _.base_url }}/chamados/1",
+      "name": "Editar Descrição do Chamado",
+      "description": "Somente funcionará se o chamado for seu.",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"descricao\": \"Nova descrição atualizada pelo dono do chamado!\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": -1670000000000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_delete_chamado",
+      "parentId": "fld_chamados",
+      "modified": 1690000000000,
+      "created": 1690000000000,
+      "url": "{{ _.base_url }}/chamados/1",
+      "name": "Excluir Chamado",
+      "description": "Exclui o chamado fisicamente, se você for o dono e ele ainda estiver 'ABERTO'.",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": -1660000000000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_relatorios",
+      "parentId": "wrk_1",
+      "modified": 1690000000000,
+      "created": 1690000000000,
+      "name": "3. Relatórios e Indicadores",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1670000000000,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_indicadores",
+      "parentId": "fld_relatorios",
+      "modified": 1690000000000,
+      "created": 1690000000000,
+      "url": "{{ _.base_url }}/chamados/indicadores",
+      "name": "Ver Indicadores (Dashboard)",
+      "description": "Exibe total por status, categoria mais popular e tempo médio de fechamento.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": -1690000000000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_relatorios",
+      "parentId": "fld_relatorios",
+      "modified": 1690000000000,
+      "created": 1690000000000,
+      "url": "{{ _.base_url }}/chamados/relatorios",
+      "name": "Ver Relatórios (JOIN c/ Filtros)",
+      "description": "Aceita Query Params para filtrar por status, id_categoria, data_inicio e data_fim.",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "name": "status",
+          "value": "ABERTO",
+          "disabled": true
+        },
+        {
+          "name": "id_categoria",
+          "value": "1",
+          "disabled": true
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": -1680000000000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    }
+  ]
+}
