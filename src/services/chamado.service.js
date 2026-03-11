@@ -67,6 +67,14 @@ class ChamadoService {
 
         return chamadoAtualizado;
     }
+
+    async getIndicadores() {
+        return await chamadoRepository.getIndicadores();
+    }
+
+    async getRelatorios(filtros) {
+        return await chamadoRepository.getRelatorios(filtros);
+    }
 }
 
 module.exports = new ChamadoService();

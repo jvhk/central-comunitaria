@@ -10,4 +10,8 @@ router.use(authMiddleware);
 router.post('/', chamadoController.abrirChamado);
 router.patch('/:id/status', chamadoController.atualizarStatus);
 
+// Relatorios e Indicadores (A API exige relatorios complexos)
+router.get('/indicadores', chamadoController.getIndicadores);
+router.get('/relatorios', chamadoController.getRelatorios);
+
 module.exports = router;
