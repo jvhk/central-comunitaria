@@ -4,7 +4,7 @@ class ChamadoController {
     async abrirChamado(req, res) {
         try {
             const id_usuario = req.usuarioId; // Extraído do Auth Middleware JWT
-            
+
             const payload = {
                 id_categoria: req.body.id_categoria,
                 descricao: req.body.descricao,
@@ -13,8 +13,24 @@ class ChamadoController {
             };
 
             const chamado = await chamadoService.abrirChamado(id_usuario, payload);
-            
+
             return res.status(201).json(chamado);
+        } catch (error) {
+            return res.status(400).json({ erro: error.message });
+        }
+    }
+
+    async atualizarStatus(req, res) {
+        try {
+            const { id } = req.params;
+            const { status } = req.body;
+
+            if (!status) {
+                return res.status(400).json({ erro: 'O campo status é obrigatório.' });
+            }
+
+            const chamadoAtualizado = await chamadoService.atualizarStatus(id, status);
+            return res.status(200).json(chamadoAtualizado);
         } catch (error) {
             return res.status(400).json({ erro: error.message });
         }

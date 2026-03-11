@@ -6,7 +6,7 @@ class ChamadoRepository {
             INSERT INTO chamados (id_usuario, id_categoria, descricao, cep, cidade, uf, prioridade, status)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         `;
-        
+
         const params = [
             chamado.id_usuario,
             chamado.id_categoria,
@@ -19,12 +19,22 @@ class ChamadoRepository {
         ];
 
         const result = await db.query(query, params);
-        
-        // Return object structure
+
         return {
             id: result.lastInsertRowid,
             ...chamado
         };
+    }
+
+    async findById(id) {
+        const result = await db.query('SELECT * FROM chamados WHERE id = ?', [id]);
+        return result.rows[0];
+    }
+
+    async updateStatus(id, newStatus) {
+        const query = "UPDATE chamados SET status = ?, atualizado_em = CURRENT_TIMESTAMP WHERE id = ?";
+        await db.query(query, [newStatus, id]);
+        return this.findById(id);
     }
 }
 

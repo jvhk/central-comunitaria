@@ -8,5 +8,6 @@ const router = Router();
 router.use(authMiddleware);
 
 router.post('/', chamadoController.abrirChamado);
+router.patch('/:id/status', chamadoController.atualizarStatus);
 
 module.exports = router;
