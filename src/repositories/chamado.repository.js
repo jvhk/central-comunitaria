@@ -92,6 +92,17 @@ class ChamadoRepository {
         const result = await db.query(query, params);
         return result.rows;
     }
+
+    async updateDescricao(id, novaDescricao) {
+        const query = 'UPDATE chamados SET descricao = ?, atualizado_em = CURRENT_TIMESTAMP WHERE id = ?';
+        await db.query(query, [novaDescricao, id]);
+        return this.findById(id);
+    }
+
+    async delete(id) {
+        const query = 'DELETE FROM chamados WHERE id = ?';
+        return await db.query(query, [id]);
+    }
 }
 
 module.exports = new ChamadoRepository();

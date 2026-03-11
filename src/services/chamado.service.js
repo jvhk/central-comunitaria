@@ -75,6 +75,37 @@ class ChamadoService {
     async getRelatorios(filtros) {
         return await chamadoRepository.getRelatorios(filtros);
     }
+
+    async atualizarChamado(id_chamado, id_usuario, novaDescricao) {
+        const chamado = await chamadoRepository.findById(id_chamado);
+        if (!chamado) throw new Error('Chamado não encontrado.');
+
+        if (chamado.id_usuario !== id_usuario) {
+            throw new Error('Acesso negado: Você só pode editar chamados que você mesmo abriu.');
+        }
+
+        if (chamado.status === 'CONCLUIDO') {
+            throw new Error('Não é possível editar um chamado que já foi concluído.');
+        }
+
+        return await chamadoRepository.updateDescricao(id_chamado, novaDescricao);
+    }
+
+    async deletarChamado(id_chamado, id_usuario) {
+        const chamado = await chamadoRepository.findById(id_chamado);
+        if (!chamado) throw new Error('Chamado não encontrado.');
+
+        if (chamado.id_usuario !== id_usuario) {
+            throw new Error('Acesso negado: Você só pode excluir chamados que você mesmo abriu.');
+        }
+
+        if (chamado.status !== 'ABERTO') {
+            throw new Error('Apenas chamados com status ABERTO podem ser excluídos.');
+        }
+
+        await chamadoRepository.delete(id_chamado);
+        return { mensagem: 'Chamado excluído com sucesso.' };
+    }
 }
 
 module.exports = new ChamadoService();

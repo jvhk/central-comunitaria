@@ -14,4 +14,8 @@ router.patch('/:id/status', chamadoController.atualizarStatus);
 router.get('/indicadores', chamadoController.getIndicadores);
 router.get('/relatorios', chamadoController.getRelatorios);
 
+// Edição e Exclusão com filtro de propriedade
+router.put('/:id', chamadoController.atualizar);
+router.delete('/:id', chamadoController.deletar);
+
 module.exports = router;

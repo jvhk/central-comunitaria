@@ -59,6 +59,41 @@ class ChamadoController {
             return res.status(400).json({ erro: error.message });
         }
     }
+
+    async atualizar(req, res) {
+        try {
+            const { id } = req.params;
+            const id_usuario = req.usuarioId;
+            const { descricao } = req.body;
+
+            if (!descricao) {
+                return res.status(400).json({ erro: 'O campo descricao é obrigatório para a edição.' });
+            }
+
+            const chamadoAtualizado = await chamadoService.atualizarChamado(id, id_usuario, descricao);
+            return res.status(200).json(chamadoAtualizado);
+        } catch (error) {
+            if (error.message.includes('Acesso negado')) {
+                return res.status(403).json({ erro: error.message });
+            }
+            return res.status(400).json({ erro: error.message });
+        }
+    }
+
+    async deletar(req, res) {
+        try {
+            const { id } = req.params;
+            const id_usuario = req.usuarioId;
+
+            const resultado = await chamadoService.deletarChamado(id, id_usuario);
+            return res.status(200).json(resultado);
+        } catch (error) {
+            if (error.message.includes('Acesso negado')) {
+                return res.status(403).json({ erro: error.message });
+            }
+            return res.status(400).json({ erro: error.message });
+        }
+    }
 }
 
 module.exports = new ChamadoController();
